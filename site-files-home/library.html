@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library | Hector's Portfolio</title>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400;1,6..72,500&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Iconify -->
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+fontFamily: {
+sans: ['Inter', 'sans-serif'],
+serif: ['Newsreader', 'serif'],
+},
+colors: {
+brand: {
+sky: '#38BDF8',
+blue: '#60A5FA',
+dark: '#050505',
+panel: '#0F110E',
+}
+},
+backgroundImage: {
+'radial-glow': 'radial-gradient(circle at 70% 50%, rgba(56, 189, 248, 0.15) 0%, rgba(5, 5, 5, 0) 60%)',
+},
+animation: {
+'fade-in': 'fadeIn 0.5s ease-out forwards',
+'slide-up': 'slideUp 0.5s ease-out forwards',
+},
+keyframes: {
+fadeIn: {
+'0%': { opacity: '0' },
+'100%': { opacity: '1' },
+},
+slideUp: {
+'0%': { transform: 'translateY(20px)', opacity: '0' },
+'100%': { transform: 'translateY(0)', opacity: '1' },
+}
+}
+}
+}
+}
+</script>
+<style>
+body {
+background-color: #030303;
+color: #ffffff;
+-webkit-font-smoothing: antialiased;
+}
+.text-glow {
+text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+}
+.glass-card {
+background: rgba(255, 255, 255, 0.02);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.05);
+transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.glass-card:hover {
+background: rgba(255, 255, 255, 0.04);
+border-color: rgba(255, 255, 255, 0.1);
+}
+/* Custom Scrollbar for Modal */
+.custom-scroll::-webkit-scrollbar {
+width: 6px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+background: #0F110E;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+background: #333;
+border-radius: 3px;
+}
+/* 3D Book CSS */
+.bookshelf-row {
+perspective: 2000px;
+display: flex;
+gap: 12px;
+flex-wrap: wrap;
+align-items: flex-end;
+min-height: 240px;
+padding-bottom: 2px;
+}
+.book-item {
+width: 44px;
+height: 200px;
+background: linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+border-radius: 2px;
+position: relative;
+cursor: pointer;
+transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+transform-origin: bottom center;
+box-shadow: 2px 0 5px rgba(0,0,0,0.5), inset -1px 0 2px rgba(255,255,255,0.05);
+margin-right: 4px;
+}
+.book-item::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: var(--book-color);
+opacity: 0.9;
+transition: opacity 0.3s;
+border-radius: 2px;
+}
+/* Spine Text */
+.book-spine {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%) rotate(-90deg);
+width: 180px;
+text-align: center;
+color: rgba(255,255,255,0.9);
+font-family: 'Inter', sans-serif;
+font-size: 10px;
+font-weight: 500;
+letter-spacing: 0.5px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+pointer-events: none;
+z-index: 2;
+text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.book-item:hover {
+transform: translateY(-10px) scale(1.05);
+z-index: 10;
+box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+.book-item:hover .book-spine {
+color: #fff;
+font-weight: 600;
+}
+.book-item.has-cover::before {
+background-image: var(--cover-url);
+background-size: cover;
+background-position: center;
+filter: brightness(0.7) sepia(0.2);
+}
+.book-item.has-cover:hover::before {
+filter: brightness(1);
+}
+/* Modal Animation */
+.modal-overlay {
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.3s ease;
+}
+.modal-overlay.active {
+opacity: 1;
+pointer-events: auto;
+}
+.modal-content-box {
+transform: translateY(20px) scale(0.95);
+transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.active .modal-content-box {
+transform: translateY(0) scale(1);
+}
+/* Shiny CTA Button CSS */
+@property --gradient-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@property --gradient-angle-offset { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@property --gradient-percent { syntax: "<percentage>"; initial-value: 20%; inherits: false; }
+@property --gradient-shine { syntax: "<color>"; initial-value: #38BDF8; inherits: false; }
+.shiny-cta {
+--gradient-angle: 0deg;
+--gradient-angle-offset: 0deg;
+--gradient-percent: 20%;
+--gradient-shine: #38BDF8;
+position: relative;
+overflow: hidden;
+border-radius: 9999px;
+padding: 0.875rem 2rem;
+font-size: 0.875rem;
+line-height: 1.2;
+font-weight: 500;
+color: #ffffff;
+background: linear-gradient(#030303, #030303) padding-box,
+conic-gradient(from calc(var(--gradient-angle) - var(--gradient-angle-offset)), transparent 0%, #0ea5e9 5%, var(--gradient-shine) 15%, #0ea5e9 30%, transparent 40%, transparent 100%) border-box;
+border: 1px solid transparent;
+box-shadow: inset 0 0 0 1px #1a1818;
+outline: none;
+cursor: pointer;
+isolation: isolate;
+z-index: 0;
+animation: border-spin 2.5s linear infinite;
+transition: transform 0.2s;
+}
+.shiny-cta:active { transform: translateY(1px); }
+@keyframes border-spin { to { --gradient-angle: 360deg; } }
+</style></head>
+<body class="min-h-screen overflow-x-hidden selection:bg-brand-sky selection:text-black relative">
+
+    <!-- Background -->
+    <div class="aura-background-component fixed top-0 w-full h-screen -z-10" data-alpha-mask="80" style="mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent)">
+        <div class="aura-background-component top-0 w-full -z-10 absolute h-full">
+            <div data-us-project="FixNvEwvWwbu3QX9qC3F" class="absolute w-full h-full left-0 top-0 -z-10"></div>
+            <script type="text/javascript">
+                !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
+            </script>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed -translate-x-1/2 flex shadow-black/50 transition-all duration-300 hover:border-white/20 hover:shadow-brand-sky/5 bg-gradient-to-br from-white/10 to-white/0 w-full lg:w-fit max-w-[90vw] z-40 rounded-full ring-white/10 ring-1 pt-1.5 pr-1.5 pb-1.5 pl-4 top-6 left-1/2 backdrop-blur-xl items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="flex gap-2.5 items-center mr-8 group">
+            <div class="relative flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.8)] bg-brand-sky group-hover:scale-125 transition-transform duration-300"></div>
+            </div>
+            <span class="font-sans font-medium text-sm tracking-tight text-white group-hover:text-white/80 transition-colors">Hector.Library</span>
+        </a>
+
+        <!-- Links -->
+        <div class="hidden md:flex items-center gap-6 mr-8">
+            <a href="index.html" class="text-xs font-medium text-white/50 hover:text-white transition-colors">Back to Hub</a>
+            <span class="text-xs font-medium text-white pointer-events-none">Bibliography</span>
+        </div>
+
+        <!-- Action -->
+        <a href="mailto:hector@example.com" class="flex gap-2 hover:bg-brand-sky transition-colors group text-xs font-semibold text-black bg-white rounded-full pt-2 pr-4 pb-2 pl-4 gap-x-2 gap-y-2 items-center flex-none">
+            Suggest Book
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:arrow-right" class="iconify group-hover:translate-x-0.5 transition-transform iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"></path></svg>
+        </a>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="container lg:px-12 pt-32 pb-16 mx-auto relative z-10 text-center">
+        <div class="max-w-5xl mx-auto px-6 flex flex-col items-center">
+            
+            <div class="w-20 h-20 mb-8 rounded-full bg-gradient-to-b from-brand-sky/20 to-transparent flex items-center justify-center border border-white/5 shadow-[0_0_40px_-10px_rgba(56,189,248,0.3)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" class="text-brand-sky"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+            </div>
+
+            <div class="inline-flex items-center gap-2 mb-8 px-3 py-1 rounded-full border border-brand-sky/20 bg-brand-sky/5">
+                <span class="text-[10px] font-mono text-brand-sky uppercase tracking-widest">Digital Archive</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-serif font-medium tracking-tight text-white mb-6 leading-[1.1]">
+                Hector's Library <br>
+                <span class="text-brand-sky text-glow italic">&amp; Technical Notes</span>
+            </h1>
+            
+            <p class="font-sans text-lg text-white/60 leading-relaxed tracking-tight max-w-2xl mx-auto font-light">
+                A curated collection of technical books spanning Data Science, Machine Learning, and System Design.
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 lg:px-12 pb-32 flex flex-col gap-16 relative z-10">
+
+        <!-- Controls -->
+        <section class="max-w-7xl mx-auto w-full">
+            <div class="glass-card rounded-[24px] p-6 lg:p-8 flex flex-col lg:flex-row gap-8 items-center justify-between">
+                
+                <!-- Search -->
+                <div class="relative w-full lg:w-1/3 group">
+                    <div class="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-brand-sky transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21l-4.35-4.35M19 11a8 8 0 1 1-16 0a8 8 0 0 1 16 0"></path></svg>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search title or author..." class="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-12 pr-6 text-sm text-white placeholder-white/30 focus:outline-none focus:border-brand-sky/50 focus:bg-white/10 transition-all font-light">
+                </div>
+
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-2 justify-center" id="filterContainer">
+                    <button class="filter-btn active px-4 py-2 rounded-full border border-brand-sky bg-brand-sky text-black text-xs font-semibold transition-all hover:shadow-[0_0_15px_rgba(56,189,248,0.4)]" data-category="all">All</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-white/10 bg-transparent text-white/60 text-xs font-medium hover:text-white hover:border-white/30 hover:bg-white/5 transition-all" data-category="data-science">Data Science</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-white/10 bg-transparent text-white/60 text-xs font-medium hover:text-white hover:border-white/30 hover:bg-white/5 transition-all" data-category="software-engineering">Software Eng</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-white/10 bg-transparent text-white/60 text-xs font-medium hover:text-white hover:border-white/30 hover:bg-white/5 transition-all" data-category="system-design">System Design</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-white/10 bg-transparent text-white/60 text-xs font-medium hover:text-white hover:border-white/30 hover:bg-white/5 transition-all" data-category="visualization">Viz</button>
+                </div>
+
+                <!-- Count -->
+                <div class="text-xs font-mono text-brand-sky/80 whitespace-nowrap">
+                    <span id="totalCount" class="text-lg font-serif italic text-white mr-1">0</span> Books
+                </div>
+            </div>
+        </section>
+
+        <!-- Library Grid -->
+        <section id="libraryContainer" class="max-w-7xl mx-auto w-full min-h-[500px]">
+            <div class="flex items-center justify-center h-64 text-white/30 font-light animate-pulse">
+                Initializing Library...
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal -->
+    <div id="bookModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8 bg-black/60 backdrop-blur-md">
+        <div class="modal-content-box glass-card w-full max-w-4xl max-h-[85vh] rounded-[32px] overflow-hidden flex flex-col md:flex-row relative shadow-2xl shadow-black">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/20 hover:bg-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors border border-white/5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 6L6 18M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Modal Image Side -->
+            <div class="w-full md:w-2/5 lg:w-1/3 bg-[#0a0a0a] relative p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/5">
+                <div class="absolute inset-0 bg-gradient-to-br from-brand-sky/10 to-transparent opacity-20"></div>
+                <!-- Book Cover Render -->
+                <div id="modalCoverContainer" class="relative z-10 w-40 md:w-48 aspect-[2/3] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.8)] rounded-md overflow-hidden transform transition-transform hover:scale-105 duration-500">
+                    <img id="modalCoverImg" src="" alt="" class="w-full h-full object-cover hidden">
+                    <div id="modalCoverFallback" class="w-full h-full flex items-center justify-center text-center p-4 bg-brand-sky/10 text-white/50 text-xs font-mono">
+                        No Cover
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Content Side -->
+            <div class="flex-1 p-8 md:p-12 overflow-y-auto custom-scroll bg-[#050505]/80">
+                <div class="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                    <span id="modalCategory" class="text-[10px] font-mono text-white/70 uppercase tracking-widest">Category</span>
+                </div>
+                
+                <h2 id="modalTitle" class="text-3xl md:text-4xl font-serif font-medium text-white mb-2 leading-tight">Book Title</h2>
+                <p id="modalAuthor" class="text-brand-sky font-medium mb-8 text-sm tracking-wide">Author Name</p>
+                
+                <div class="w-12 h-px bg-white/10 mb-8"></div>
+                
+                <p id="modalSummary" class="text-white/70 text-base font-light leading-relaxed mb-10">
+                    Description goes here.
+                </p>
+
+                <div class="flex gap-4">
+                     <a href="#" class="px-6 py-3 rounded-full bg-white text-black text-xs font-semibold hover:bg-brand-sky transition-colors">
+                        Read Notes
+                     </a>
+                     <a href="#" class="px-6 py-3 rounded-full border border-white/10 text-white text-xs font-semibold hover:bg-white/5 transition-colors">
+                        Buy on Amazon
+                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-[#030303] border-t border-white/5 pt-24 pb-12 overflow-hidden">
+        <!-- Glow -->
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-sky/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-3xl mx-auto text-center px-6 mb-24 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-serif text-white mb-6 tracking-tight">Expand Your Knowledge.</h2>
+            <p class="text-white/50 mb-10 font-light max-w-xl mx-auto">
+                Knowledge compounding is the most powerful investment. Check back often as this library grows.
+            </p>
+            <a href="mailto:hector@example.com" class="shiny-cta inline-flex items-center gap-2">
+                Recommend a Book
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:book-plus" class="iconify group-hover:translate-x-1 transition-transform iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10h6"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v6"></path></svg>
+            </a>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-white/5 pt-8 relative z-10">
+            <span class="text-white/30 text-xs font-mono">© 2025 Hector. All rights reserved.</span>
+            <div class="flex gap-6">
+                <a href="#" class="text-white/30 hover:text-white transition-colors text-xs font-medium">GitHub</a>
+                <a href="#" class="text-white/30 hover:text-white transition-colors text-xs font-medium">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data & Logic from User's Script
+        const booksData = [
+            { title: "Fundamentals of Data Visualization", author: "Claus O. Wilke", category: "visualization", summary: "A comprehensive guide to creating effective visualizations. Covers principles of perception, color theory, and best practices for communicating data insights clearly and honestly.", color: "#e74c3c" },
+            { title: "Data Points", author: "Nathan Yau", category: "visualization", summary: "Explores the art and science of data visualization through practical examples. Teaches how to tell compelling stories with data using charts, graphs, and interactive elements.", color: "#3498db" },
+            { title: "Storytelling with Data", author: "Cole Nussbaumer Knaflic", category: "visualization", summary: "A practical guide to crafting data-driven narratives. Focuses on choosing the right visualizations, eliminating clutter, and designing for maximum impact in business presentations.", color: "#9b59b6" },
+            { title: "Python Data Science Handbook", author: "Jake VanderPlas", category: "data-science", summary: "Essential reference for data science in Python. Covers NumPy, Pandas, Matplotlib, Scikit-Learn, and practical machine learning workflows for real-world problems.", color: "#2ecc71" },
+            { title: "Python for Data Analysis", author: "Wes McKinney", category: "data-science", summary: "The definitive guide to data wrangling with Pandas, written by its creator. Covers data cleaning, transformation, aggregation, and time series analysis.", color: "#1abc9c" },
+            { title: "Hands-On Machine Learning", author: "Aurelien Geron", category: "data-science", summary: "Practical introduction to machine learning and deep learning. Covers supervised/unsupervised learning, neural networks, CNNs, RNNs, and production deployment strategies.", color: "#f39c12" },
+            { title: "Pattern Recognition and ML", author: "Christopher M. Bishop", category: "data-science", summary: "Comprehensive treatment of pattern recognition and machine learning theory. Covers probabilistic models, Bayesian inference, graphical models, and advanced ML algorithms.", color: "#e67e22" },
+            { title: "Deep Learning", author: "Ian Goodfellow", category: "data-science", summary: "The authoritative textbook on deep learning. Covers neural network architectures, optimization, CNNs, RNNs, GANs, and the mathematical foundations of modern deep learning.", color: "#c0392b" },
+            { title: "AI Engineering", author: "Chip Huyen", category: "data-science", summary: "Bridges the gap between ML research and production systems. Covers MLOps, model deployment, monitoring, infrastructure, and building reliable AI applications at scale.", color: "#8e44ad" },
+            { title: "Hands on Large Language Models", author: "Jay Alammar", category: "data-science", summary: "Practical guide to working with LLMs. Covers transformer architectures, fine-tuning, prompt engineering, and building LLM-powered applications.", color: "#34495e" },
+            { title: "The Book of Why", author: "Judea Pearl", category: "data-science", summary: "Revolutionary approach to causality and causal inference. Introduces causal diagrams and the do-calculus for distinguishing correlation from causation.", color: "#2c3e50" },
+            { title: "Clean Architecture", author: "Robert C. Martin", category: "software-engineering", summary: "Principles for building maintainable, scalable systems. Covers separation of concerns, dependency inversion, and architectural patterns that stand the test of time.", color: "#2ecc71" },
+            { title: "The Pragmatic Programmer", author: "David Thomas", category: "software-engineering", summary: "Timeless advice for professional software development. Covers code craftsmanship, debugging, testing, career development, and pragmatic approaches to common challenges.", color: "#3498db" },
+            { title: "Refactoring", author: "Martin Fowler", category: "software-engineering", summary: "Systematic approach to improving code without changing behavior. Catalog of refactoring patterns with examples for making code cleaner, more maintainable, and easier to understand.", color: "#9b59b6" },
+            { title: "Fluent Python", author: "Luciano Ramalho", category: "software-engineering", summary: "Advanced Python programming techniques. Covers data structures, functions as objects, metaprogramming, concurrency, and leveraging Python's unique features effectively.", color: "#f39c12" },
+            { title: "Grokking Algorithms", author: "Aditya Y. Bhargava", category: "software-engineering", summary: "Visual, intuitive introduction to algorithms. Covers search, sorting, recursion, dynamic programming, and greedy algorithms with friendly illustrations and practical examples.", color: "#e67e22" },
+            { title: "Designing Data Intensive Apps", author: "Martin Kleppmann", category: "system-design", summary: "Essential guide to building reliable, scalable data systems. Covers data models, storage engines, replication, partitioning, transactions, and distributed system fundamentals.", color: "#c0392b" },
+            { title: "System Design Interview", author: "Alex Xu", category: "system-design", summary: "Structured approach to system design interviews. Covers scalability, load balancing, caching, databases, and designing real-world systems like Netflix, Uber, and Twitter.", color: "#8e44ad" },
+            { title: "Site Reliability Engineering", author: "Betsy Beyer", category: "system-design", summary: "Google's approach to running production systems at scale. Covers SLOs, monitoring, incident response, capacity planning, and building reliable distributed systems.", color: "#16a085" },
+            { title: "Fundamentals of Data Engineering", author: "Joe Reis", category: "data-engineering", summary: "Modern data engineering principles and practices. Covers data lifecycle, pipelines, storage systems, batch/stream processing, and building robust data infrastructure.", color: "#e74c3c" },
+            { title: "Database Internals", author: "Alex Petrov", category: "data-engineering", summary: "Deep dive into how databases work under the hood. Covers storage engines, B-trees, LSM trees, replication, distributed consensus, and database architecture.", color: "#9b59b6" }
+        ];
+
+        const categories = {
+            'visualization': 'Data Visualization',
+            'data-science': 'Data Science & ML',
+            'software-engineering': 'Software Engineering',
+            'system-design': 'System Design',
+            'data-engineering': 'Data Engineering'
+        };
+
+        let currentFilter = 'all';
+        let searchTerm = '';
+
+        async function fetchBookCover(title, author) {
+            try {
+                // Try Open Library
+                const olQuery = encodeURIComponent(`${title} ${author}`);
+                const olResponse = await fetch(`https://openlibrary.org/search.json?q=${olQuery}&limit=1`);
+                const olData = await olResponse.json();
+                if (olData.docs && olData.docs.length > 0 && olData.docs[0].cover_i) {
+                    return `https://covers.openlibrary.org/b/id/${olData.docs[0].cover_i}-M.jpg`;
+                }
+                // Fallback to Google Books
+                const gbQuery = encodeURIComponent(`${title} ${author}`);
+                const gbResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${gbQuery}&maxResults=1`);
+                const gbData = await gbResponse.json();
+                if (gbData.items && gbData.items[0].volumeInfo.imageLinks) {
+                    return gbData.items[0].volumeInfo.imageLinks.thumbnail.replace('http:', 'https:');
+                }
+            } catch (error) { console.log('Cover fetch failed', title); }
+            return null;
+        }
+
+        async function renderLibrary() {
+            const container = document.getElementById('libraryContainer');
+            const filteredBooks = booksData.filter(book => {
+                const matchesCategory = currentFilter === 'all' || book.category === currentFilter;
+                const matchesSearch = searchTerm === '' || 
+                    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    book.author.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            document.getElementById('totalCount').textContent = filteredBooks.length;
+            container.innerHTML = '';
+
+            const groupedBooks = {};
+            // Group logic
+            if (currentFilter === 'all') {
+                filteredBooks.forEach(book => {
+                    if (!groupedBooks[book.category]) groupedBooks[book.category] = [];
+                    groupedBooks[book.category].push(book);
+                });
+            } else {
+                groupedBooks[currentFilter] = filteredBooks;
+            }
+
+            if (filteredBooks.length === 0) {
+                 container.innerHTML = `<div class="text-center text-white/40 font-light py-20">No books found matching criteria.</div>`;
+                 return;
+            }
+
+            for (const [category, books] of Object.entries(groupedBooks)) {
+                if(!categories[category]) continue;
+                
+                const section = document.createElement('div');
+                section.className = 'mb-16 opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]';
+                
+                // Tailwind-styled shelf header
+                const shelfHeader = `
+                    <div class="flex items-center gap-4 mb-6">
+                         <div class="w-8 h-8 rounded-full bg-brand-sky/10 flex items-center justify-center text-brand-sky border border-brand-sky/20">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"></path></svg>
+                         </div>
+                         <h2 class="text-2xl font-serif font-medium text-white tracking-tight">${categories[category]}</h2>
+                         <div class="h-px bg-white/10 flex-1"></div>
+                    </div>
+                `;
+
+                // Bookshelf container
+                const bookshelf = document.createElement('div');
+                bookshelf.className = 'border-b border-brand-sky/30 pb-0 relative';
+                // Glowing shelf effect
+                bookshelf.innerHTML = `
+                    <div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-sky/50 to-transparent shadow-[0_0_10px_#38BDF8]"></div>
+                    <div class="bookshelf-row px-4"></div>
+                `;
+                
+                const row = bookshelf.querySelector('.bookshelf-row');
+
+                books.forEach((book, index) => {
+                    const bookEl = document.createElement('div');
+                    bookEl.className = 'book-item group';
+                    bookEl.style.setProperty('--book-color', book.color || '#333');
+                    bookEl.style.animationDelay = `${index * 50}ms`;
+                    // Safe logic to store data
+                    bookEl.dataset.title = book.title;
+                    bookEl.dataset.author = book.author;
+                    bookEl.dataset.category = book.category;
+                    bookEl.dataset.summary = book.summary;
+                    bookEl.dataset.color = book.color;
+                    
+                    bookEl.innerHTML = `<div class="book-spine">${book.title}</div>`;
+                    
+                    bookEl.addEventListener('click', () => openModal(bookEl));
+                    row.appendChild(bookEl);
+                });
+
+                section.innerHTML = shelfHeader;
+                section.appendChild(bookshelf);
+                container.appendChild(section);
+
+                // Lazy load covers
+                const bookElements = row.querySelectorAll('.book-item');
+                bookElements.forEach(async (bookEl) => {
+                    const coverUrl = await fetchBookCover(bookEl.dataset.title, bookEl.dataset.author);
+                    if (coverUrl) {
+                        bookEl.classList.add('has-cover');
+                        bookEl.style.setProperty('--cover-url', `url(${coverUrl})`);
+                        bookEl.dataset.cover = coverUrl;
+                    }
+                });
+            }
+        }
+
+        function openModal(bookEl) {
+            const modal = document.getElementById('bookModal');
+            const title = bookEl.dataset.title;
+            const author = bookEl.dataset.author;
+            const category = bookEl.dataset.category;
+            const summary = bookEl.dataset.summary;
+            const coverUrl = bookEl.dataset.cover;
+
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalAuthor').textContent = author;
+            document.getElementById('modalCategory').textContent = categories[category];
+            document.getElementById('modalSummary').textContent = summary;
+
+            const img = document.getElementById('modalCoverImg');
+            const fallback = document.getElementById('modalCoverFallback');
+            const container = document.getElementById('modalCoverContainer');
+            
+            // Set fallback background color regardless
+            fallback.style.backgroundColor = bookEl.dataset.color + '20'; // 20 hex alpha
+            container.style.boxShadow = `0 20px 50px -12px ${bookEl.dataset.color}40`;
+
+            if (coverUrl) {
+                img.src = coverUrl;
+                img.classList.remove('hidden');
+                fallback.classList.add('hidden');
+            } else {
+                img.classList.add('hidden');
+                fallback.classList.remove('hidden');
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('bookModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderLibrary();
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Update active state visual
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-brand-sky', 'text-black', 'border-brand-sky');
+                    b.classList.add('bg-transparent', 'text-white/60', 'border-white/10');
+                });
+                
+                const target = e.currentTarget;
+                target.classList.remove('bg-transparent', 'text-white/60', 'border-white/10');
+                target.classList.add('active', 'bg-brand-sky', 'text-black', 'border-brand-sky');
+
+                currentFilter = target.dataset.category;
+                renderLibrary();
+            });
+        });
+
+        // Close modal on background click
+        document.getElementById('bookModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('bookModal')) closeModal();
+        });
+
+        // Init
+        renderLibrary();
+
+    </script>
+
+</body></html>

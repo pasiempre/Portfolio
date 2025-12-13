@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Initiatives | Carbajal Analytics</title>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400;1,6..72,500&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Iconify -->
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+fontFamily: {
+sans: ['Inter', 'sans-serif'],
+serif: ['Newsreader', 'serif'],
+},
+colors: {
+brand: {
+sky: '#38BDF8',
+blue: '#60A5FA',
+dark: '#050505',
+panel: '#0F110E',
+}
+},
+backgroundImage: {
+'radial-glow': 'radial-gradient(circle at 70% 50%, rgba(56, 189, 248, 0.15) 0%, rgba(5, 5, 5, 0) 60%)',
+},
+animation: {
+'beam': 'beam 3s linear infinite',
+'spin-slow': 'spin 12s linear infinite',
+'marquee': 'marquee 40s linear infinite',
+},
+keyframes: {
+beam: {
+'0%': { strokeDashoffset: '1000' },
+'100%': { strokeDashoffset: '0' },
+},
+marquee: {
+'0%': { transform: 'translateX(0)' },
+'100%': { transform: 'translateX(-50%)' },
+}
+}
+}
+}
+}
+</script>
+<style>
+body {
+background-color: #030303;
+color: #ffffff;
+-webkit-font-smoothing: antialiased;
+}
+.text-glow {
+text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+}
+.glass-card {
+background: rgba(255, 255, 255, 0.02);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.05);
+}
+/* Shiny CTA Button CSS */
+@property --gradient-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@property --gradient-angle-offset { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@property --gradient-percent { syntax: "<percentage>"; initial-value: 20%; inherits: false; }
+@property --gradient-shine { syntax: "<color>"; initial-value: #38BDF8; inherits: false; }
+.shiny-cta {
+--gradient-angle: 0deg;
+--gradient-angle-offset: 0deg;
+--gradient-percent: 20%;
+--gradient-shine: #38BDF8;
+position: relative;
+overflow: hidden;
+border-radius: 9999px;
+padding: 0.875rem 2rem;
+font-size: 0.875rem;
+line-height: 1.2;
+font-weight: 500;
+color: #ffffff;
+background: linear-gradient(#030303, #030303) padding-box,
+conic-gradient(from calc(var(--gradient-angle) - var(--gradient-angle-offset)), transparent 0%, #0ea5e9 5%, var(--gradient-shine) 15%, #0ea5e9 30%, transparent 40%, transparent 100%) border-box;
+border: 1px solid transparent;
+box-shadow: inset 0 0 0 1px #1a1818;
+outline: none;
+cursor: pointer;
+isolation: isolate;
+z-index: 0;
+animation: border-spin 2.5s linear infinite;
+transition: transform 0.2s;
+}
+.shiny-cta:active { transform: translateY(1px); }
+@keyframes border-spin { to { --gradient-angle: 360deg; } }
+</style></head>
+<body class="min-h-screen overflow-x-hidden selection:bg-brand-sky selection:text-black relative">
+
+    <!-- Background (component) added by Aura -->
+    <div class="aura-background-component fixed top-0 w-full h-screen -z-10" data-alpha-mask="80" style="mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent)">
+        <div class="aura-background-component top-0 w-full -z-10 absolute h-full">
+            <div data-us-project="FixNvEwvWwbu3QX9qC3F" class="absolute w-full h-full left-0 top-0 -z-10"></div>
+            <script type="text/javascript">
+                !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();
+            </script>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed -translate-x-1/2 flex shadow-black/50 transition-all duration-300 hover:border-white/20 hover:shadow-brand-sky/5 bg-gradient-to-br from-white/10 to-white/0 w-full lg:w-fit max-w-[90vw] z-50 rounded-full ring-white/10 ring-1 pt-1.5 pr-1.5 pb-1.5 pl-4 top-6 left-1/2 backdrop-blur-xl items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="flex gap-2.5 items-center mr-8 group">
+            <div class="relative flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.8)] bg-brand-sky group-hover:scale-125 transition-transform duration-300"></div>
+            </div>
+            <span class="font-sans font-medium text-sm tracking-tight text-white group-hover:text-white/80 transition-colors">Carbajal Analytics</span>
+        </a>
+
+        <!-- Links -->
+        <div class="hidden md:flex items-center gap-6 mr-8">
+            <a href="index.html" class="text-xs font-medium text-white/50 hover:text-white transition-colors">Back to Hub</a>
+            <span class="text-xs font-medium text-white pointer-events-none">Initiatives</span>
+        </div>
+
+        <!-- Action -->
+        <a href="mailto:contact@carbajal.analytics" class="flex gap-2 hover:bg-brand-sky transition-colors group text-xs font-semibold text-black bg-white rounded-full pt-2 pr-4 pb-2 pl-4 gap-x-2 gap-y-2 items-center flex-none">
+            Contact
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:arrow-right" class="iconify group-hover:translate-x-0.5 transition-transform iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"></path></svg>
+        </a>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="container lg:px-12 pt-32 pb-24 mx-auto relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="inline-flex items-center gap-2 mb-8 px-3 py-1 rounded-full border border-brand-sky/20 bg-brand-sky/5">
+                <span class="text-[10px] font-mono text-brand-sky uppercase tracking-widest">Community &amp; Creativity</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-serif font-medium tracking-tight text-white mb-6 leading-[1.1]">
+                Creative &amp; Community <br>
+                <span class="text-brand-sky text-glow italic">Leadership</span>
+            </h1>
+            <p class="font-sans text-lg text-white/60 leading-relaxed tracking-tight max-w-xl font-light">
+                Demonstrating vision, organization, and passion through non-commercial endeavors.
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 lg:px-12 pb-32 flex flex-col gap-32 relative z-10">
+
+        <!-- Initiative 1: Radio -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            <!-- Visual -->
+            <div class="glass-card rounded-[32px] p-2 relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-brand-sky/5 to-transparent opacity-50 pointer-events-none"></div>
+                <iframe width="100%" height="340" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A2065979982&amp;color=%2338BDF8&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true" class="rounded-[24px] shadow-2xl relative z-10"></iframe>
+                <div class="mt-4 px-4 pb-2 flex items-center justify-between text-white/30 text-[10px] font-mono uppercase tracking-widest">
+                    <span>Secure Stream</span>
+                    <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-brand-sky rounded-full animate-pulse"></span> Live</span>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="flex flex-col">
+                <h3 class="text-3xl font-serif font-medium text-white mb-6">No Holding Back Radio</h3>
+                <p class="text-lg text-white/60 font-light leading-relaxed mb-8">
+                    <span class="text-white font-medium">Curation Philosophy.</span> This is a non-commercial music project focused on showcasing sound design, mixing, and the art of long-form audio curation. It demonstrates consistency and brand creation.
+                </p>
+                
+                <div class="mb-4">
+                    <h4 class="text-xs font-mono text-brand-sky uppercase tracking-widest mb-4">Impact &amp; Consistency</h4>
+                    <ul class="flex flex-col gap-3">
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:check-circle-2" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></circle><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m9 12l2 2l4-4"></path></svg>
+                            <span><span class="text-white font-medium">Output:</span> Consistent release schedule maintained for over 2 years.</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:check-circle-2" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></circle><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m9 12l2 2l4-4"></path></svg>
+                            <span><span class="text-white font-medium">Skills:</span> Mastering audio mixing, digital distribution, and audience engagement.</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:check-circle-2" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></circle><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m9 12l2 2l4-4"></path></svg>
+                            <span><span class="text-white font-medium">Brand:</span> Developed unique visual assets and defined a recognizable brand identity.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Initiative 2: La Pista -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            
+            <!-- Content (Left on Desktop) -->
+            <div class="flex flex-col order-2 lg:order-1">
+                <h3 class="text-3xl font-serif font-medium text-white mb-6">La Pista: Community Soccer</h3>
+                <p class="text-lg text-white/60 font-light leading-relaxed mb-8">
+                    <span class="text-white font-medium">Operations and Community Building.</span> La Pista is a collective focused on organizing high-quality, inclusive pickup soccer. It requires significant operational planning and communication.
+                </p>
+                
+                <div class="mb-4">
+                    <h4 class="text-xs font-mono text-brand-sky uppercase tracking-widest mb-4">Product Development Focus</h4>
+                    <ul class="flex flex-col gap-3">
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:smartphone" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><rect width="14" height="20" x="5" y="2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" rx="2" ry="2"></rect><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01"></path></svg>
+                            <span><span class="text-white font-medium">App Plan:</span> Planning a dedicated mobile application to manage sign-ups, scheduling, and payment.</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:bar-chart-2" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 20V10m-6 10V4M6 20v-6"></path></svg>
+                            <span><span class="text-white font-medium">Analytic Goal:</span> The app will collect operational data to optimize event capacity and resource allocation.</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:figma" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5M12 2h3.5a3.5 3.5 0 1 1 0 7H12zM12 12.5a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0zm0 7a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0z"></path></svg>
+                            <span><span class="text-white font-medium">Future Visuals:</span> This space will be updated with <span class="text-white">mockups and wireframes</span> once development begins.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Visual (Right on Desktop) -->
+            <div class="glass-card rounded-[32px] p-2 relative overflow-hidden order-1 lg:order-2">
+                 <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-bl from-brand-sky/5 to-transparent opacity-50 pointer-events-none"></div>
+                <video src="https://raw.githubusercontent.com/pasiempre/Portfolio/2f405899fe06076f684e33cb25b765710301a4ba/LaPista%20Video.mp4" autoplay="" loop="" muted="" playsinline="" class="w-full h-auto rounded-[24px] shadow-2xl border border-white/5 opacity-80 hover:opacity-100 transition-opacity duration-700"></video>
+            </div>
+        </section>
+
+        <!-- Initiative 3: Fight for Humanity -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            
+            <!-- Visual Card -->
+            <div class="glass-card rounded-[32px] p-8 relative flex flex-col items-center justify-center text-center min-h-[360px] hover:bg-white/[0.04] transition-colors duration-500">
+                <div class="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-sky mb-6 shadow-lg shadow-brand-sky/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:users" class="iconify w-10 h-10 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></circle><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+                <h4 class="text-xl font-serif font-medium text-white mb-2">Fight for Humanity Collective</h4>
+                <p class="text-xs font-mono text-white/50 uppercase tracking-widest mb-8 border-b border-white/10 pb-4">Focus: Resource Allocation &amp; Outreach</p>
+
+                <h5 class="text-sm font-medium text-white mb-4">Projects in Queue</h5>
+                <ul class="text-sm text-white/60 space-y-3 text-left w-full max-w-xs mx-auto">
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:check-circle" class="iconify text-brand-sky shrink-0 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 4L12 14.01l-3-3"></path></svg>
+                        Demographic Need Analysis
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:check-circle" class="iconify text-brand-sky shrink-0 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 4L12 14.01l-3-3"></path></svg>
+                        Volunteer Throughput Optimization
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:check-circle" class="iconify text-brand-sky shrink-0 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 4L12 14.01l-3-3"></path></svg>
+                        Outreach Effectiveness Dashboard
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Description -->
+            <div class="flex flex-col">
+                <p class="text-lg text-white/60 font-light leading-relaxed mb-8">
+                    <span class="text-white font-medium">Mission-Driven Analytics.</span> This initiative is dedicated to leveraging data science principles to support non-profits and community groups, ensuring resources are distributed equitably and efficiently.
+                </p>
+                
+                <div class="mb-4">
+                    <h4 class="text-xs font-mono text-brand-sky uppercase tracking-widest mb-4">Analytical Contribution</h4>
+                    <ul class="flex flex-col gap-3">
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:map" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0zm.894.211v15M9 3.236v15"></path></svg>
+                            <span><span class="text-white font-medium">Use Cases:</span> Utilizing geospatial analysis to map underserved areas and identify resource gaps.</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:heart-handshake" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2c-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 5L9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.18 0l2.5 2.5"></path></svg>
+                            <span><span class="text-white font-medium">Impact:</span> Providing clear, quantified recommendations to leadership on budget and resource allocation.</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-white/70 font-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:trending-up" class="iconify mt-0.5 text-brand-sky shrink-0 iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m22 7l-8.5 8.5l-5-5L2 17.5"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7h6v6"></path></svg>
+                            <span><span class="text-white font-medium">Skillset:</span> Applying predictive modeling (where appropriate) to forecast need versus supply.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer / CTA -->
+    <footer class="relative z-10 bg-[#030303] border-t border-white/5 pt-24 pb-12 overflow-hidden">
+        <!-- Glow -->
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-sky/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-3xl mx-auto text-center px-6 mb-24 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-serif text-white mb-6 tracking-tight">Ready to Collaborate?</h2>
+            <p class="text-white/50 mb-10 font-light">
+                If you're building something unique or need analytical insight for a community project, let's connect.
+            </p>
+            <a href="mailto:contact@carbajal.analytics" class="shiny-cta inline-flex items-center gap-2">
+                Send a Collaboration Inquiry
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:send" class="iconify group-hover:translate-x-1 transition-transform iconify--lucide"><line x1="22" x2="11" y1="2" y2="13" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line><polygon points="22 2 15 22 11 13 2 9 22 2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon></svg>
+            </a>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-white/5 pt-8 relative z-10">
+            <span class="text-white/30 text-xs font-mono">© 2025 Carbajal Analytics. All rights reserved.</span>
+            <div class="flex gap-6">
+                <a href="https://github.com/pasiempre" class="text-white/30 hover:text-white transition-colors text-xs font-medium">GitHub</a>
+                <a href="https://linkedin.com" class="text-white/30 hover:text-white transition-colors text-xs font-medium">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>
