@@ -21,7 +21,7 @@
 <meta property="twitter:image" content="https://raw.githubusercontent.com/pasiempre/Portfolio/2f405899fe06076f684e33cb25b765710301a4ba/Professional%20headshot.png">
 
 
-<-m src.ingest.loader Favicon -->
+<!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -192,10 +192,10 @@ scrollbar-width: none;
         </div>
 
         <!-- Action -->
-        <button class="flex gap-2 hover:bg-brand-sky transition-colors group text-xs font-semibold text-black bg-white rounded-full pt-2 pr-4 pb-2 pl-4 gap-x-2 gap-y-2 items-center flex-none">
+        <a href="mailto:hectorhernandez9980@gmail.com?subject=Booking%20a%20Call%20-%20Carbajal%20Analytics" class="flex gap-2 hover:bg-brand-sky transition-colors group text-xs font-semibold text-black bg-white rounded-full pt-2 pr-4 pb-2 pl-4 gap-x-2 gap-y-2 items-center flex-none">
             Book a Call
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="lucide:arrow-right" class="iconify group-hover:translate-x-0.5 transition-transform iconify--lucide"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"></path></svg>
-        </button>
+        </a>
     </nav>
 
     <!-- Hero Section -->
@@ -471,25 +471,71 @@ scrollbar-width: none;
                 <p class="text-sm text-white/50">Formal training in SQL, Python, and statistical modeling.</p>
             </div>
 
-            <!-- Skills Marquee -->
+            <!-- Books Marquee with API-driven covers -->
             <div class="w-full relative overflow-hidden mask-gradient-fade mb-10">
-                <div class="flex animate-marquee w-max gap-6 sweezy-custom-cursor-hover">
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">SQL Mastery</div>
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">Python Data</div>
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">System Design</div>
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">KPI Strategy</div>
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">Data Viz</div>
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">Architecture</div>
-                    <!-- Duplicates -->
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">SQL Mastery</div>
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">Python Data</div>
-                    <div class="w-32 h-40 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center text-xs font-mono text-white/70">System Design</div>
+                <div id="booksMarquee" class="flex animate-marquee w-max gap-6 sweezy-custom-cursor-hover">
+                    <!-- Books will be populated by JavaScript -->
                 </div>
             </div>
 
             <a href="library.html" class="text-xs font-medium text-white/40 hover:text-brand-sky transition-colors border-b border-white/10 hover:border-brand-sky pb-0.5">Open Library</a>
         </div>
     </section>
+
+    <!-- Book Cover API Script -->
+    <script>
+        const featuredBooks = [
+            { title: "Fundamentals of Data Visualization", author: "Claus O. Wilke", color: "#e74c3c" },
+            { title: "Python Data Science Handbook", author: "Jake VanderPlas", color: "#2ecc71" },
+            { title: "Hands-On Machine Learning", author: "Aurelien Geron", color: "#f39c12" },
+            { title: "Clean Architecture", author: "Robert C. Martin", color: "#2ecc71" },
+            { title: "Designing Data Intensive Apps", author: "Martin Kleppmann", color: "#c0392b" },
+            { title: "Storytelling with Data", author: "Cole Nussbaumer Knaflic", color: "#9b59b6" },
+        ];
+
+        async function fetchBookCover(title, author) {
+            try {
+                // Try Open Library
+                const olQuery = encodeURIComponent(`${title} ${author}`);
+                const olResponse = await fetch(`https://openlibrary.org/search.json?q=${olQuery}&limit=1`);
+                const olData = await olResponse.json();
+                if (olData.docs && olData.docs.length > 0 && olData.docs[0].cover_i) {
+                    return `https://covers.openlibrary.org/b/id/${olData.docs[0].cover_i}-M.jpg`;
+                }
+                // Fallback to Google Books
+                const gbQuery = encodeURIComponent(`${title} ${author}`);
+                const gbResponse = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${gbQuery}&maxResults=1`);
+                const gbData = await gbResponse.json();
+                if (gbData.items && gbData.items[0].volumeInfo.imageLinks) {
+                    return gbData.items[0].volumeInfo.imageLinks.thumbnail.replace('http:', 'https:');
+                }
+            } catch (error) { console.log('Cover fetch failed', title); }
+            return null;
+        }
+
+        async function renderBooksMarquee() {
+            const container = document.getElementById('booksMarquee');
+            const allBooks = [...featuredBooks, ...featuredBooks]; // Duplicate for seamless loop
+            
+            for (const book of allBooks) {
+                const bookEl = document.createElement('div');
+                bookEl.className = 'w-32 h-44 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center overflow-hidden flex-shrink-0 transition-all hover:border-white/20 hover:scale-105';
+                bookEl.style.backgroundColor = book.color + '20';
+                bookEl.innerHTML = `<span class="text-[10px] font-mono text-white/70 px-2 text-center leading-tight">${book.title}</span>`;
+                container.appendChild(bookEl);
+                
+                // Fetch cover asynchronously
+                fetchBookCover(book.title, book.author).then(coverUrl => {
+                    if (coverUrl) {
+                        bookEl.innerHTML = `<img src="${coverUrl}" alt="${book.title}" class="w-full h-full object-cover" loading="lazy">`;
+                        bookEl.classList.add('border-transparent');
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderBooksMarquee);
+    </script>
 
     <!-- Contact / Footer -->
     <footer class="relative z-10 bg-[#030303] border-t border-white/5 pt-24 pb-12 overflow-hidden sweezy-custom-cursor-default-hover">
